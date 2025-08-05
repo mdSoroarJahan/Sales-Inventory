@@ -15,7 +15,7 @@
     <script src="{{ asset('js/toastify-js.js') }}"></script>
     {{-- <script src="{{ asset('js/axios.min.js') }}"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.3/axios.min.js"></script>
-    <script src="{{ assets('js/config.js') }}"></script>
+    <script src="{{ asset('js/config.js') }}"></script>
 
 </head>
 
