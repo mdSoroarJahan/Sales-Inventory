@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SaleController;
 
 Route::get('/', [HomeController::class, 'homePage']);
@@ -16,3 +17,4 @@ Route::get('/customerPage', [CustomerController::class, 'customerPage']);
 Route::get('/productPage', [ProductController::class, 'productPage']);
 Route::get('/salePage', [SaleController::class, 'salePage']);
 Route::get('/invoicePage', [InvoiceController::class, 'invoicePage']);
+Route::get('/reportPage', [ReportController::class, 'reportPage']);
