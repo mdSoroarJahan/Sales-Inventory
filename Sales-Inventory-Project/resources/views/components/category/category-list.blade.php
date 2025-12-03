@@ -25,8 +25,8 @@
                             <tr>
                                 <td>1</td>
                                 <td>Category</td>
-                                <td><button>Edit</button></td>
-                                <td><button>Delete</button></td>
+                                <td><button data-bs-toggle="modal" data-bs-target="#update-modal">Edit</button></td>
+                                <td><button data-bs-toggle="modal" data-bs-target="#delete-modal">Delete</button></td>
                             </tr>
                         </tbody>
                     </table>
