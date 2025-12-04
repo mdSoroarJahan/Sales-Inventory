@@ -30,4 +30,9 @@ class UserController extends Controller
     {
         return view('pages.auth.verify-otp-page');
     }
+
+    public function profilePage()
+    {
+        return view('pages.dashboard.profile-page');
+    }
 }
