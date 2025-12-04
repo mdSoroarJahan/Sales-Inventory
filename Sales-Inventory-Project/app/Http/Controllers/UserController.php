@@ -10,4 +10,9 @@ class UserController extends Controller
     {
         return view('pages.auth.registration-page');
     }
+
+    public function loginPage()
+    {
+        return view('pages.auth.login-page');
+    }
 }

@@ -21,3 +21,4 @@ Route::get('/salePage', [SaleController::class, 'salePage']);
 Route::get('/invoicePage', [InvoiceController::class, 'invoicePage']);
 Route::get('/reportPage', [ReportController::class, 'reportPage']);
 Route::get('/registrationPage', [UserController::class, 'registrationPage']);
+Route::get('/loginPage', [UserController::class, 'loginPage']);
