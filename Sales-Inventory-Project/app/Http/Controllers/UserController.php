@@ -15,4 +15,9 @@ class UserController extends Controller
     {
         return view('pages.auth.login-page');
     }
+
+    public function resetpasswordPage()
+    {
+        return view('pages.auth.reset-pass-page');
+    }
 }
