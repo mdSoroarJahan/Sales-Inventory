@@ -25,4 +25,9 @@ class UserController extends Controller
     {
         return view('pages.auth.send-otp-page');
     }
+
+    public function verifyotpPage()
+    {
+        return view('pages.auth.verify-otp-page');
+    }
 }
