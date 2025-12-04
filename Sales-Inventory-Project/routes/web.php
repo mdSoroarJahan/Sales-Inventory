@@ -23,3 +23,4 @@ Route::get('/reportPage', [ReportController::class, 'reportPage']);
 Route::get('/registrationPage', [UserController::class, 'registrationPage']);
 Route::get('/loginPage', [UserController::class, 'loginPage']);
 Route::get('/resetpasswordPage', [UserController::class, 'resetpasswordPage']);
+Route::get('/sendotpPage', [UserController::class, 'sendotpPage']);

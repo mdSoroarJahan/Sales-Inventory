@@ -20,4 +20,9 @@ class UserController extends Controller
     {
         return view('pages.auth.reset-pass-page');
     }
+
+    public function sendotpPage()
+    {
+        return view('pages.auth.send-otp-page');
+    }
 }
