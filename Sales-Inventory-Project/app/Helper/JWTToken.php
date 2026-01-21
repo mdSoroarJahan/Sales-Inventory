@@ -10,12 +10,12 @@ class JWTToken
     // Create Token
     public static function createToken($user_email, $user_id)
     {
-        $key = env('JWT_KEY ');
+        $key = env('JWT_KEY');
 
         $payload = [
             'iss' => 'Laravel Token',
             'iat' => time(),
-            'exp' => time() + 3600,
+            'exp' => time() + 3600 * 24,
             'user_email' => $user_email,
             'user_id' => $user_id
         ];
@@ -26,7 +26,7 @@ class JWTToken
     // Create Token for reset Password
     public static function createTokenForResetPassword($user_email)
     {
-        $key = env('JWT_KEY ');
+        $key = env('JWT_KEY');
         $payload = [
             'iss' => 'Laravel Token',
             'iat' => time(),

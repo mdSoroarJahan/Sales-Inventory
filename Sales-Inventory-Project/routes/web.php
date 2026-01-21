@@ -12,6 +12,7 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\UserController;
 use Symfony\Component\HttpKernel\DependencyInjection\RegisterControllerArgumentLocatorsPass;
 
+// Pages
 Route::get('/', [HomeController::class, 'homePage']);
 Route::get('/dashboard', [DashboardController::class, 'dashboardPage'])->name('dashboard');
 Route::get('/categoryPage', [CategoryController::class, 'categoryPage'])->name('categoryPage');
@@ -26,3 +27,7 @@ Route::get('/resetpasswordPage', [UserController::class, 'resetpasswordPage']);
 Route::get('/sendOtp', [UserController::class, 'sendotpPage']);
 Route::get('/verifyOtp', [UserController::class, 'verifyotpPage']);
 Route::get('/userProfile', [UserController::class, 'profilePage']);
+
+//Functionality
+Route::post('/user-registration', [UserController::class, 'userRegistration']);
+Route::post('/user-login', [UserController::class, 'userLogin']);
