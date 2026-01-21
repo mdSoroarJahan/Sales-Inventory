@@ -37,7 +37,7 @@ class JWTToken
     }
 
     // Verify Token
-    public function verifyToken($token)
+    public static function verifyToken($token)
     {
         try {
             if (!$token) {
@@ -47,7 +47,7 @@ class JWTToken
                 return JWT::decode($token, new Key($key, 'HS256'));
             }
         } catch (\Throwable $e) {
-            return $e->getMessage();
+            return "Invalid Token";
         }
     }
 }
