@@ -28,10 +28,15 @@ Route::get('/sendOtp', [UserController::class, 'sendotpPage']);
 Route::get('/verifyOtp', [UserController::class, 'verifyotpPage']);
 Route::get('/userProfile', [UserController::class, 'profilePage']);
 
-//Functionality
+//Login Functionality
 Route::post('/user-registration', [UserController::class, 'userRegistration']);
 Route::post('/user-login', [UserController::class, 'userLogin']);
 Route::get('/logout', [UserController::class, 'logout']);
 Route::post('/send-otp', [UserController::class, 'sendOTP']);
 Route::post('/verify-otp', [UserController::class, 'verifyOTP']);
 Route::post('/reset-password', [UserController::class, 'resetPassword'])->middleware('token.verify');
+
+// Category
+Route::get('/category-list', [CategoryController::class, 'categoryList'])->middleware('token.verify');
+Route::post('/category-create', [CategoryController::class, 'createCategory'])->middleware('token.verify');
+Route::post('/category-delete', [CategoryController::class, 'categoryDelete'])->middleware('token.verify');
