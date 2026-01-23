@@ -16,7 +16,7 @@ class CategoryController extends Controller
     public function categoryList(Request $request)
     {
         $user_id = $request->header('user_id');
-        
+
         try {
             $categories = Category::where('user_id', $user_id)->get();
             return response()->json([
@@ -124,6 +124,55 @@ class CategoryController extends Controller
             return response()->json([
                 'status' => 'failed',
                 'message' => 'Failed to retrieve category'
+            ], 500);
+        }
+    }
+
+    // Update category
+    public function categoryUpdate(Request $request)
+    {
+        $user_id = $request->header('user_id');
+        $request->validate([
+            'id' => 'required|integer',
+            'name' => 'required|string|max:255'
+        ]);
+
+        $cat_id = $request->input('id');
+
+        try {
+            $category = Category::where('id', $cat_id)->where('user_id', $user_id)->first();
+            if (!$category) {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Category not found'
+                ], 404);
+            }
+
+            // Check if name is unique (excluding current category)
+            $existingCategory = Category::where('name', $request->input('name'))
+                ->where('id', '!=', $cat_id)
+                ->first();
+            
+            if ($existingCategory) {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Category name already exists'
+                ], 400);
+            }
+
+            $category->update([
+                'name' => $request->input('name')
+            ]);
+            
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Category updated successfully',
+                'data' => $category
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Category update failed'
             ], 500);
         }
     }

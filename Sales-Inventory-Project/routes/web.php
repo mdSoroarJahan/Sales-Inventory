@@ -40,3 +40,5 @@ Route::post('/reset-password', [UserController::class, 'resetPassword'])->middle
 Route::get('/category-list', [CategoryController::class, 'categoryList'])->middleware('token.verify');
 Route::post('/category-create', [CategoryController::class, 'createCategory'])->middleware('token.verify');
 Route::post('/category-delete', [CategoryController::class, 'categoryDelete'])->middleware('token.verify');
+Route::post('/categoryById', [CategoryController::class, 'categoryById'])->middleware('token.verify');
+Route::POST('/category-update', [CategoryController::class, 'categoryUpdate'])->middleware('token.verify');
