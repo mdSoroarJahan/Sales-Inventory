@@ -41,4 +41,11 @@ Route::get('/category-list', [CategoryController::class, 'categoryList'])->middl
 Route::post('/category-create', [CategoryController::class, 'createCategory'])->middleware('token.verify');
 Route::post('/category-delete', [CategoryController::class, 'categoryDelete'])->middleware('token.verify');
 Route::post('/categoryById', [CategoryController::class, 'categoryById'])->middleware('token.verify');
-Route::POST('/category-update', [CategoryController::class, 'categoryUpdate'])->middleware('token.verify');
+Route::post('/category-update', [CategoryController::class, 'categoryUpdate'])->middleware('token.verify');
+
+// Customer API
+Route::post('/customer-create', [CustomerController::class, 'customerCreate'])->middleware('token.verify');
+Route::get('/customer-list', [CustomerController::class, 'customerList'])->middleware('token.verify');
+Route::delete('/customer-delete', [CustomerController::class, 'customerDelete'])->middleware('token.verify');
+Route::get('/customer-by-id', [CustomerController::class, 'customerById'])->middleware('token.verify');
+Route::post('/customer-update', [CustomerController::class, 'customerUpdate'])->middleware('token.verify');
