@@ -49,3 +49,10 @@ Route::get('/customer-list', [CustomerController::class, 'customerList'])->middl
 Route::delete('/customer-delete', [CustomerController::class, 'customerDelete'])->middleware('token.verify');
 Route::get('/customer-by-id', [CustomerController::class, 'customerById'])->middleware('token.verify');
 Route::post('/customer-update', [CustomerController::class, 'customerUpdate'])->middleware('token.verify');
+
+// product
+Route::post('/product-create', [ProductController::class, 'createProduct'])->middleware('token.verify');
+Route::get('/product-list', [ProductController::class, 'productList'])->middleware('token.verify');
+Route::post('/product-by-id', [ProductController::class, 'productById'])->middleware('token.verify');
+Route::post('/product-delete', [ProductController::class, 'productDelete'])->middleware('token.verify');
+Route::post('/product-update', [ProductController::class, 'productUpdate'])->middleware('token.verify');
