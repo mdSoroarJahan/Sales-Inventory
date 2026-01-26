@@ -172,4 +172,35 @@ class UserController extends Controller
             ], 500);
         }
     }
+
+    public function userProfile(Request $request)
+    {
+        $email = $request->header('email');
+        try {
+            $user = User::where('email', $email)->first();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'User Profile',
+                'data' => $user
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'User not found',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function updateUserProfile(Request $request)
+    {
+        $email = $request->header('email');
+
+        $request->validate([
+            'first_name' => 'required|string|max:50',
+            'last_name' => 'required|string|max:50',
+            'mobile' => 'max:20',
+            'password' => 'required|'
+        ]);
+    }
 }
