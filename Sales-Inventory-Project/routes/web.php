@@ -56,3 +56,6 @@ Route::get('/product-list', [ProductController::class, 'productList'])->middlewa
 Route::post('/product-by-id', [ProductController::class, 'productById'])->middleware('token.verify');
 Route::post('/product-delete', [ProductController::class, 'productDelete'])->middleware('token.verify');
 Route::post('/product-update', [ProductController::class, 'productUpdate'])->middleware('token.verify');
+
+// invoice
+Route::post('/invoice-create', [InvoiceController::class, 'invoiceCreate'])->middleware('token.verify');
