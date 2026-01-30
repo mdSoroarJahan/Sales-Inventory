@@ -86,4 +86,37 @@ class InvoiceController extends Controller
             ], 500);
         }
     }
+
+    // Select Invoice
+    public function invoiceSelect(Request $request)
+    {
+        $user_id = $request->header('user_id');
+        try {
+            $invoices = Invoice::where('user_id', $user_id)
+                ->with('customer')
+                ->get();
+
+            if ($invoices->isEmpty()) {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'No invoices found'
+                ], 404);
+            }
+
+            // Load invoice products for each invoice
+            $invoices->load('invoiceProducts.product');
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Invoices retrieved successfully',
+                'data' => $invoices
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Failed to retrieve invoices',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
