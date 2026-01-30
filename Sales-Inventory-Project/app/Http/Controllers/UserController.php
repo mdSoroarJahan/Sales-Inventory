@@ -173,6 +173,7 @@ class UserController extends Controller
         }
     }
 
+    // Get user profile
     public function userProfile(Request $request)
     {
         $email = $request->header('email');
@@ -192,6 +193,7 @@ class UserController extends Controller
         }
     }
 
+    // Profile update
     public function updateUserProfile(Request $request)
     {
         $email = $request->header('email');
@@ -200,7 +202,38 @@ class UserController extends Controller
             'first_name' => 'required|string|max:50',
             'last_name' => 'required|string|max:50',
             'mobile' => 'max:20',
-            'password' => 'required|'
+            'password' => 'required'
         ]);
+
+        try {
+            // Check if user exists
+            $user = User::where('email', $email)->first();
+            if (!$user) {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'User not found'
+                ], 404);
+            }
+
+            $user->update([
+                'first_name' => $request->input('first_name'),
+                'last_name' => $request->input('last_name'),
+                'mobile' => $request->input('mobile'),
+                'password' => $request->input('password')
+            ]);
+
+            $updatedUser = User::where('email', $email)->first();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Profile updated successful',
+                'data' => $updatedUser
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Failed to update Profile.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }
