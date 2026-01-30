@@ -61,3 +61,6 @@ Route::post('/product-update', [ProductController::class, 'productUpdate'])->mid
 
 // invoice
 Route::post('/invoice-create', [InvoiceController::class, 'invoiceCreate'])->middleware('token.verify');
+
+// Dashboard Summary
+Route::get('/summary', [DashboardController::class, 'summary'])->middleware('token.verify');
