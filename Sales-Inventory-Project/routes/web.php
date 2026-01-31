@@ -28,6 +28,7 @@ Route::get('/sendOtp', [UserController::class, 'sendotpPage']);
 Route::get('/verifyOtp', [UserController::class, 'verifyotpPage']);
 Route::get('/userProfile', [UserController::class, 'profilePage']);
 
+// Backend
 //Login Functionality
 Route::post('/user-registration', [UserController::class, 'userRegistration']);
 Route::post('/user-login', [UserController::class, 'userLogin']);
