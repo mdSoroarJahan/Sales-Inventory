@@ -61,6 +61,9 @@ Route::post('/product-update', [ProductController::class, 'productUpdate'])->mid
 
 // invoice
 Route::post('/invoice-create', [InvoiceController::class, 'invoiceCreate'])->middleware('token.verify');
+Route::get('/invoice-select', [InvoiceController::class, 'invoiceSelect'])->middleware('token.verify');
+Route::post('/invoice-details', [InvoiceController::class, 'invoiceDetails'])->middleware('token.verify');
+Route::post('/invoice-delete', [InvoiceController::class, 'invoiceDelete'])->middleware('token.verify');
 
 // Dashboard Summary
 Route::get('/summary', [DashboardController::class, 'summary'])->middleware('token.verify');

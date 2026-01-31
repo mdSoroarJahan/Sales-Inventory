@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\InvoiceProduct;
 use Illuminate\Http\Request;
@@ -115,6 +116,111 @@ class InvoiceController extends Controller
             return response()->json([
                 'status' => 'failed',
                 'message' => 'Failed to retrieve invoices',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    // Invoice Details
+    public function invoiceDetails(Request $request)
+    {
+        $user_id = $request->header('user_id');
+
+        $request->validate([
+            'cus_id' => 'required|integer',
+            'inv_id' => 'required|integer'
+        ]);
+
+        try {
+            $customerDetails = Customer::where('user_id', $user_id)
+                ->where('id', $request->input('cus_id'))
+                ->first();
+
+            if (!$customerDetails) {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Customer not found'
+                ], 404);
+            }
+
+            $invoiceTotal = Invoice::where('user_id', $user_id)
+                ->where('id', $request->input('inv_id'))
+                ->first();
+
+            if (!$invoiceTotal) {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Invoice not found'
+                ], 404);
+            }
+
+            $invoiceProduct = InvoiceProduct::where('invoice_id', $request->input('inv_id'))
+                ->where('user_id', $user_id)
+                ->with('product')
+                ->get();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Invoice details retrieved successfully',
+                'data' => [
+                    'customer' => $customerDetails,
+                    'invoice' => $invoiceTotal,
+                    'products' => $invoiceProduct
+                ]
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Failed to retrieve invoice details',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    // Delete Invoice
+    public function invoiceDelete(Request $request)
+    {
+        DB::beginTransaction();
+
+        $request->validate([
+            'inv_id' => 'required|integer'
+        ]);
+
+        try {
+            $user_id = $request->header('user_id');
+            $inv_id = $request->input('inv_id');
+
+            // Check if invoice exists and belongs to user
+            $invoice = Invoice::where('id', $inv_id)
+                ->where('user_id', $user_id)
+                ->first();
+
+            if (!$invoice) {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Invoice not found'
+                ], 404);
+            }
+
+            // Delete all invoice products
+            InvoiceProduct::where('invoice_id', $inv_id)
+                ->where('user_id', $user_id)
+                ->delete();
+
+            // Delete the invoice
+            $invoice->delete();
+
+            DB::commit();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Invoice deleted successfully'
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Failed to delete invoice',
                 'error' => $e->getMessage()
             ], 500);
         }

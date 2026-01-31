@@ -12,4 +12,9 @@ class Customer extends Model
         'mobile',
         'user_id'
     ];
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
 }
