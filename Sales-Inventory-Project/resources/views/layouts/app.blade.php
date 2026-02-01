@@ -8,7 +8,7 @@
     <title>Inventory Management</title>
     <link rel="stylesheet" type="image/x-icon" href="{{ asset('/favicon.ico') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/animate.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/animate.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/fontawesome.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/toastify.min.css') }}">

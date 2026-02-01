@@ -27,7 +27,7 @@ class User extends Authenticatable
     ];
 
     protected $attributes = [
-        'otp' => 0
+        'otp' => '0'
     ];
 
     /**

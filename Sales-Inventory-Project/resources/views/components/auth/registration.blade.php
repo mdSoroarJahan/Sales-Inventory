@@ -63,7 +63,31 @@
         } else {
             showLoader();
             try {
+                let res = await axios.post('/user-registration', {
+                    email: email,
+                    first_name: firstName,
+                    last_name: lastName,
+                    mobile: mobile,
+                    password: password
+                });
 
+                hideLoader();
+                if (res.status === 201 && res.data.status === 'success') {
+                    successToast(res.data.message);
+                    setTimeout(function() {
+                        window.location.href = '/userLogin';
+                    }, 2000);
+                } else {
+                    errorToast(res.data.message);
+                }
+
+            } catch (err) {
+                hideLoader();
+                if (err.response && err.response.data && err.response.data.message) {
+                    errorToast(err.response.data.message);
+                } else {
+                    errorToast('Something went wrong');
+                }
             }
         }
     }

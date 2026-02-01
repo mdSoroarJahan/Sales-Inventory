@@ -65,7 +65,7 @@ class UserController extends Controller
                 'status' => 'success',
                 'message' => 'User Registration Successful'
             ], 201);
-        } catch (\Throwable $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => 'failed',
                 'message' => $e->getMessage()
