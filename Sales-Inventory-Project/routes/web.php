@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\RegisterControllerArgumentL
 
 // Pages
 Route::get('/', [HomeController::class, 'homePage']);
-Route::get('/dashboard', [DashboardController::class, 'dashboardPage'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'dashboardPage'])->name('dashboard')->middleware('token.verify');
 Route::get('/categoryPage', [CategoryController::class, 'categoryPage'])->name('categoryPage');
 Route::get('/customerPage', [CustomerController::class, 'customerPage'])->name('customerPage');
 Route::get('/productPage', [ProductController::class, 'productPage'])->name('productPage');

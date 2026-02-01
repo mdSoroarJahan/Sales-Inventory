@@ -58,7 +58,7 @@ class UserController extends Controller
                 'last_name' => $request->last_name,
                 'email' => $request->email,
                 'mobile' => $request->mobile,
-                'password' => Hash::make($request->password)
+                'password' => $request->password
             ]);
 
             return response()->json([
@@ -84,7 +84,7 @@ class UserController extends Controller
 
             $user = User::where('email', $request->email)->first();
 
-            if ($user && Hash::check($request->password, $user->password)) {
+            if ($user && ($request->password === $user->password)) {
                 $token = JWTToken::createToken($request->email, $user->id);
                 return response()->json([
                     'status' => 'success',
@@ -107,10 +107,12 @@ class UserController extends Controller
     // Logout
     public function logout()
     {
-        return response()->json([
-            'status' => 'success',
-            'message' => 'User logout successful'
-        ])->withCookie(cookie()->forget('token'));
+        // return response()->json([
+        //     'status' => 'success',
+        //     'message' => 'User logout successful'
+        // ])->withCookie(cookie()->forget('token'));
+
+        return redirect('/userLogin')->withCookie(cookie()->forget('token'));
     }
 
     //Send OTP

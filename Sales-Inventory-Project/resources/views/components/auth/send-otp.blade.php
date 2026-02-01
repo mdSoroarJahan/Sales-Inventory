@@ -8,9 +8,42 @@
                     <label>Your email address</label>
                     <input id="email" placeholder="User Email" class="form-control" type="email" />
                     <br />
-                    <button onclick="SentOTP()" class="btn w-100 float-end bg-gradient-primary">Next</button>
+                    <button onclick="VerifyEmail()" class="btn w-100 float-end bg-gradient-primary">Next</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    async function VerifyEmail() {
+        let email = document.getElementById('email').value;
+
+        if (email.length === 0) {
+            errorToast('Please enter your email address');
+        } else {
+            showLoader();
+            try {
+                let res = await axios.post('/send-otp', {
+                    email: email
+                });
+                hideLoader();
+
+                if (res.status === 200 && res.data.status === 'success') {
+                    successToast(res.data.message);
+                    setTimeout(function() {
+                        window.location.href = '/verifyOtp';
+                    }, 1000);
+                } else {
+                    errorToast(res.data.message);
+                }
+            } catch (err) {
+                hideLoader();
+                if (err.response && err.response.data && err.response.data.message) {
+                    errorToast(err.response.data.message);
+                } else {
+                    errorToast('Something went wrong');
+                }
+            }
+        }
+    }
+</script>

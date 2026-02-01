@@ -7,25 +7,31 @@ function hideLoader() {
 
 function successToast(msg) {
     Toastify({
-        gravity: "bottom", // `top` or `bottom`
-        position: "center", // `left`, `center` or `right`
+        gravity: "top", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
         text: msg,
-        className: "mb-5",
         style: {
             background: "green",
-        }
+        },
+        offset: {
+            x: 20,
+            y: 70
+        },
     }).showToast();
 }
 
 function errorToast(msg) {
     Toastify({
-        gravity: "bottom", // `top` or `bottom`
-        position: "center", // `left`, `center` or `right`
+        gravity: "top", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
         text: msg,
-        className: "mb-5",
         style: {
             background: "red",
-        }
+        },
+        offset: {
+            x: 20,
+            y: 70
+        },
     }).showToast();
 }
 
