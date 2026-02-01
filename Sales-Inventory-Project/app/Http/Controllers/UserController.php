@@ -191,7 +191,7 @@ class UserController extends Controller
             ]);
 
             $email = $request->header('email');
-            $password = Hash::make($request->password);
+            $password = $request->password;
 
             $updated = User::where('email', $email)->update(['password' => $password]);
 
@@ -256,7 +256,7 @@ class UserController extends Controller
             }
 
             // Verify current password
-            if (!Hash::check($request->password, $user->password)) {
+            if ($request->password !== $user->password) {
                 return response()->json([
                     'status' => 'failed',
                     'message' => 'Current password is incorrect'

@@ -14,3 +14,37 @@
         </div>
     </div>
 </div>
+<script>
+    async function VerifyOtp() {
+        let otp = document.getElementById('otp').value;
+        if (otp.length !== 4) {
+            errorToast('Invalid OTP');
+        } else {
+            showLoader();
+            try {
+                let res = await axios.post('/verify-otp', {
+                    otp: otp,
+                    email: sessionStorage.getItem('email')
+                });
+                hideLoader();
+
+                if (res.status === 200 && res.data.status === 'success') {
+                    successToast(res.data.message);
+                    sessionStorage.clear();
+                    setTimeout(() => {
+                        window.location.href = '/resetpasswordPage';
+                    }, 1000);
+                } else {
+                    errorToast(res.data.message);
+                }
+            } catch (err) {
+                hideLoader();
+                if (err.response && err.response.data && err.response.data.message) {
+                    errorToast(err.response.data.message);
+                } else {
+                    errorToast('Something went wrong');
+                }
+            }
+        }
+    }
+</script>

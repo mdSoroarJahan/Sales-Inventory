@@ -30,6 +30,7 @@
 
                 if (res.status === 200 && res.data.status === 'success') {
                     successToast(res.data.message);
+                    sessionStorage.setItem('email', email);
                     setTimeout(function() {
                         window.location.href = '/verifyOtp';
                     }, 1000);
