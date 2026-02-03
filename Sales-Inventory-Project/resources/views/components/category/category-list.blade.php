@@ -25,8 +25,10 @@
                             <tr>
                                 <td>1</td>
                                 <td>Category</td>
-                                <td><button data-bs-toggle="modal" data-bs-target="#update-modal">Edit</button></td>
-                                <td><button data-bs-toggle="modal" data-bs-target="#delete-modal">Delete</button></td>
+                                <td>
+                                    <button data-bs-toggle="modal" data-bs-target="#update-modal">Edit</button>
+                                    <button data-bs-toggle="modal" data-bs-target="#delete-modal">Delete</button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -35,3 +37,22 @@
         </div>
     </div>
 </div>
+<script>
+    async function getList() {
+        showLoader();
+        let res = await axios.get('/list-category');
+        hideLoader();
+
+        let tableList = $("#tableList");
+        let tableData = $("#tableData");
+
+        res.data.forEach(function(item, index) {
+            let row = < tr >
+                <
+                td > $ {} < /td> <
+                td > < /td> <
+                td > < /td> <
+                /tr>
+        })
+    }
+</script>
