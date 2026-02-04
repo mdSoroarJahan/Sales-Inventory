@@ -23,18 +23,57 @@
                         </tr>
                     </thead>
                     <tbody id="tableList">
-                        <tr>
-                            <td>1</td>
-                            <td>Soroar</td>
-                            <td>soroar@gmail.com</td>
-                            <td>017544444</td>
-                            <td><button>delete</button>
-                                <button>edit</button>
-                            </td>
-                        </tr>
+
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    getList();
+    async function getList() {
+        showLoader();
+        let res = await axios.get("/customer-list");
+        hideLoader();
+
+        let tableList = $("#tableList");
+        let tableData = $("tableData");
+
+        tableData.DataTable().destroy();
+        tableList.empty();
+
+        res.data.forEach(function(item, index) {
+            let row = ` <tr>
+                            <td>${index+1}</td>
+                            <td>${item['name']}</td>
+                            <td>${item['email']}</td>
+                            <td>${item['mobile']}</td>
+                            <td>
+                                <button data-id="${item['id']}" class="btn editBtn btn-sm btn-outline-success">Edit</button>
+                                <button data-id="${item['id']}" class="btn deleteBtn btn-sm btn-outline-danger">Delete</button>
+                            </td>
+                        </tr>`
+            tableList.append(row)
+        })
+        $('.editBtn').on('click', async function() {
+            let id = $(this).data('id');
+            await FillUpUpdateForm(id)
+            $("#update-model").model('show');
+        })
+
+        $('.deleteBtn').on('click', function() {
+            let id = $(this).data('id');
+            $("#delete-model").model('show');
+            $("#deleteID").val(id);
+        })
+
+        new DataTable('#tableData', {
+            order: [
+                [0, 'desc']
+            ],
+            lengthMenu: [5, 10, 15, 20, 30]
+        });
+    }
+</script>
