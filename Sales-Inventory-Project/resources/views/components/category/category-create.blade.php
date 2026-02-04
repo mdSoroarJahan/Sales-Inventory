@@ -41,6 +41,7 @@
 
                 if (res.status === 201) {
                     successToast("Category Created");
+                    document.getElementById("save-form").reset();
                     await getList();
                 }
             } catch (error) {

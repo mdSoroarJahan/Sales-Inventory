@@ -25,3 +25,52 @@
         </div>
     </div>
 </div>
+
+<script>
+    async function FillUpdateForm(id) {
+        document.getElementById('updateID').value = id;
+        showLoader();
+        try {
+            let res = await axios.post("/categoryById", {
+                id: id
+            });
+            hideLoader();
+            document.getElementById('categoryNameUpdate').value = res.data['data']['name'];
+        } catch (e) {
+            hideLoader();
+            errorToast("Failed to fetch category detail");
+        }
+    }
+
+    async function Update() {
+        let categoryName = document.getElementById('categoryNameUpdate').value;
+        let updateID = document.getElementById('updateID').value;
+        if (categoryName.length === 0) {
+            errorToast("Category name required");
+        } else {
+            document.getElementById('update-modal-close').click();
+            showLoader();
+            try {
+                let res = await axios.post("/category-update", {
+                    name: categoryName,
+                    id: updateID
+                });
+                hideLoader();
+                if (res.status === 200 && res.data['status'] === 'success') {
+                    successToast("Category Updated successfully");
+                    document.getElementById("update-form").reset();
+                    await getList();
+                } else {
+                    errorToast("Failed to update category");
+                }
+            } catch (e) {
+                hideLoader();
+                if (e.response && e.response.status === 400) {
+                    errorToast(e.response.data.message);
+                } else {
+                    errorToast("Something went wrong");
+                }
+            }
+        }
+    }
+</script>
