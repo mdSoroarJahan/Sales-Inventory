@@ -24,3 +24,34 @@
         </div>
     </div>
 </div>
+
+<script>
+    async function Save() {
+        let categoryName = document.getElementById('categoryName').value;
+        if (categoryName.length === 0) {
+            errorToast("Category Required!")
+        } else {
+            document.getElementById('modal-close').click();
+            showLoader();
+            try {
+                let res = await axios.post("/category-create", {
+                    name: categoryName
+                });
+                hideLoader(); // Success: hide loader
+
+                if (res.status === 201) {
+                    successToast("Category Created");
+                    await getList();
+                }
+            } catch (error) {
+                hideLoader(); // Error: MUST hide loader here too!
+
+                if (error.response && error.response.status === 422) {
+                    errorToast("Category already exists!");
+                } else {
+                    errorToast("Something went wrong");
+                }
+            }
+        }
+    }
+</script>
