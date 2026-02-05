@@ -39,12 +39,12 @@
         hideLoader();
 
         let tableList = $("#tableList");
-        let tableData = $("tableData");
+        let tableData = $("#tableData");
 
         tableData.DataTable().destroy();
         tableList.empty();
 
-        res.data.forEach(function(item, index) {
+        res.data['data'].forEach(function(item, index) {
             let row = ` <tr>
                             <td>${index+1}</td>
                             <td>${item['name']}</td>
@@ -60,18 +60,18 @@
         $('.editBtn').on('click', async function() {
             let id = $(this).data('id');
             await FillUpUpdateForm(id)
-            $("#update-model").model('show');
+            $("#update-modal").modal('show');
         })
 
         $('.deleteBtn').on('click', function() {
             let id = $(this).data('id');
-            $("#delete-model").model('show');
+            $("#delete-modal").modal('show');
             $("#deleteID").val(id);
         })
 
         new DataTable('#tableData', {
             order: [
-                [0, 'desc']
+                [0, 'asc']
             ],
             lengthMenu: [5, 10, 15, 20, 30]
         });

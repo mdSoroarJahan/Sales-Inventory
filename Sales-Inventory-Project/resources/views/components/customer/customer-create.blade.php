@@ -28,3 +28,36 @@
         </div>
     </div>
 </div>
+
+<script>
+    async function Save() {
+        let customerName = document.getElementById('customerName').value;
+        let customerEmail = document.getElementById('customerEmail').value;
+        let customerMobile = document.getElementById('customerMobile').value;
+
+        if (customerName.length === 0) {
+            errorToast("Customer Name is required !");
+        } else if (customerEmail.length === 0) {
+            errorToast("Customer Email is required !");
+        } else if (customerMobile.length === 0) {
+            errorToast("Customer Mobile is required !");
+        } else {
+            document.getElementById('modal-close').click();
+            showLoader();
+            let res = await axios.post("/customer-create", {
+                name: customerName,
+                email: customerEmail,
+                mobile: customerMobile
+            });
+            hideLoader();
+
+            if (res.status === 201) {
+                successToast('Customer created successfully');
+                document.getElementById("save-form").reset();
+                await getList();
+            } else {
+                errorToast("Request fail");
+            }
+        }
+    }
+</script>
