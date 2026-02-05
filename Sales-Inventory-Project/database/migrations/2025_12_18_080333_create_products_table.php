@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 50);
             $table->decimal('price', 8, 2);
-            $table->string('unite', 50);
+            $table->string('unit', 50);
             $table->string('img_url', 150);
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->foreignId('category_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();

@@ -6,8 +6,6 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-use function Pest\Laravel\call;
-
 class ProductController extends Controller
 {
     public function productPage()
@@ -22,7 +20,7 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required|string|max:50',
             'price' => 'required|numeric|min:0|max:999999.99',
-            'unite' => 'required|string|max:50',
+            'unit' => 'required|string|max:50',
             'category_id' => 'required|exists:categories,id',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
@@ -48,7 +46,7 @@ class ProductController extends Controller
             $product = Product::create([
                 'name' => $request->input('name'),
                 'price' => $request->input('price'),
-                'unite' => $request->input('unite'),
+                'unit' => $request->input('unit'),
                 'img_url' => $filePath,
                 'user_id' => $user_id,
                 'category_id' => $request->input('category_id')
@@ -175,7 +173,7 @@ class ProductController extends Controller
             'id' => 'required|integer',
             'name' => 'required|string|max:50',
             'price' => 'required|numeric|min:0|max:999999.99',
-            'unite' => 'required|string|max:50',
+            'unit' => 'required|string|max:50',
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
@@ -217,7 +215,7 @@ class ProductController extends Controller
             $product->update([
                 'name' => $request->input('name'),
                 'price' => $request->input('price'),
-                'unite' => $request->input('unite'),
+                'unit' => $request->input('unit'),
                 'img_url' => $filePath,
                 'category_id' => $request->input('category_id')
             ]);
