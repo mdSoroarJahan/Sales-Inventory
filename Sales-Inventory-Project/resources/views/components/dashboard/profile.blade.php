@@ -24,6 +24,11 @@
                                 <label>Mobile Number</label>
                                 <input id="mobile" placeholder="Mobile" class="form-control" type="mobile" />
                             </div>
+                            <div class="col-md-4 p-2">
+                                <label>Current Password (for verification)</label>
+                                <input id="password" placeholder="Enter current password to verify"
+                                    class="form-control" type="password" />
+                            </div>
                         </div>
                         <div class="row m-0 p-0">
                             <div class="col-md-4 p-2">
@@ -38,20 +43,69 @@
 </div>
 
 <script>
-    getProfile()
+    getProfile();
+
     async function getProfile() {
         showLoader();
-        let res = await axios.get("/user-profile")
-        hideLoader();
-        if (res.status === 200 && res.data['status'] === 'success') {
-            let data = res.data['data'];
-            document.getElementById('email').value = data['email'];
-            document.getElementById('firstName').value = data['first_name'];
-            document.getElementById('lastName').value = data['last_name'];
-            document.getElementById('mobile').value = data['mobile'];
-            document.getElementById('password').value = data['password'];
+        try {
+            let res = await axios.get("/user-profile");
+            hideLoader();
+            if (res.status === 200 && res.data['status'] === 'success') {
+                let data = res.data['data'];
+                document.getElementById('email').value = data['email'];
+                document.getElementById('firstName').value = data['first_name'];
+                document.getElementById('lastName').value = data['last_name'];
+                document.getElementById('mobile').value = data['mobile'];
+                document.getElementById('password').value = '';
+            } else {
+                errorToast(res.data['message']);
+            }
+        } catch (e) {
+            hideLoader();
+            errorToast("Failed to load profile");
+        }
+    }
+
+    async function onUpdate() {
+        let firstName = document.getElementById('firstName').value;
+        let lastName = document.getElementById('lastName').value;
+        let mobile = document.getElementById('mobile').value;
+        let password = document.getElementById('password').value;
+
+        if (firstName.length === 0) {
+            errorToast('First Name is required');
+        } else if (lastName.length === 0) {
+            errorToast('Last Name is required');
+        } else if (mobile.length === 0) {
+            errorToast('Mobile is required');
+        } else if (password.length === 0) {
+            errorToast('Current password is required for verification');
         } else {
-            errorToast(res.data['message'])
+            showLoader();
+            try {
+                let res = await axios.post("/user-profile-update", {
+                    first_name: firstName,
+                    last_name: lastName,
+                    mobile: mobile,
+                    password: password
+                });
+                hideLoader();
+
+                if (res.status === 200 && res.data['status'] === 'success') {
+                    successToast(res.data['message']);
+                    document.getElementById('password').value = '';
+                    await getProfile();
+                } else {
+                    errorToast(res.data['message']);
+                }
+            } catch (e) {
+                hideLoader();
+                if (e.response && e.response.data && e.response.data['message']) {
+                    errorToast(e.response.data['message']);
+                } else {
+                    errorToast("Failed to update profile");
+                }
+            }
         }
     }
 </script>

@@ -37,7 +37,7 @@ Route::post('/send-otp', [UserController::class, 'sendOTP']);
 Route::post('/verify-otp', [UserController::class, 'verifyOTP']);
 Route::post('/reset-password', [UserController::class, 'resetPassword'])->middleware('token.verify');
 Route::get('/user-profile', [UserController::class, 'userProfile'])->middleware('token.verify');
-Route::post('user-profile-update', [UserController::class, 'updateUserProfile'])->middleware('token.verify');
+Route::post('/user-profile-update', [UserController::class, 'updateUserProfile'])->middleware('token.verify');
 
 // Category
 Route::get('/category-list', [CategoryController::class, 'categoryList'])->middleware('token.verify');
