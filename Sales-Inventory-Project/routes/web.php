@@ -15,24 +15,24 @@ use Symfony\Component\HttpKernel\DependencyInjection\RegisterControllerArgumentL
 // Pages
 Route::get('/', [HomeController::class, 'homePage']);
 Route::get('/dashboard', [DashboardController::class, 'dashboardPage'])->name('dashboard')->middleware('token.verify');
-Route::get('/categoryPage', [CategoryController::class, 'categoryPage'])->name('categoryPage');
-Route::get('/customerPage', [CustomerController::class, 'customerPage'])->name('customerPage');
-Route::get('/productPage', [ProductController::class, 'productPage'])->name('productPage');
-Route::get('/salePage', [SaleController::class, 'salePage'])->name('salePage');
-Route::get('/invoicePage', [InvoiceController::class, 'invoicePage'])->name('invoicePage');
-Route::get('/reportPage', [ReportController::class, 'reportPage'])->name('reportPage');
+Route::get('/categoryPage', [CategoryController::class, 'categoryPage'])->name('categoryPage')->middleware('token.verify');
+Route::get('/customerPage', [CustomerController::class, 'customerPage'])->name('customerPage')->middleware('token.verify');
+Route::get('/productPage', [ProductController::class, 'productPage'])->name('productPage')->middleware('token.verify');
+Route::get('/salePage', [SaleController::class, 'salePage'])->name('salePage')->middleware('token.verify');
+Route::get('/invoicePage', [InvoiceController::class, 'invoicePage'])->name('invoicePage')->middleware('token.verify');
+Route::get('/reportPage', [ReportController::class, 'reportPage'])->name('reportPage')->middleware('token.verify');
 Route::get('/userRegistration', [UserController::class, 'registrationPage']);
 Route::get('/userLogin', [UserController::class, 'loginPage']);
 Route::get('/resetpasswordPage', [UserController::class, 'resetpasswordPage']);
 Route::get('/sendOtp', [UserController::class, 'sendotpPage']);
 Route::get('/verifyOtp', [UserController::class, 'verifyotpPage']);
-Route::get('/userProfile', [UserController::class, 'profilePage']);
+Route::get('/userProfile', [UserController::class, 'profilePage'])->middleware('token.verify');
 
 // Backend
 //Login Functionality
 Route::post('/user-registration', [UserController::class, 'userRegistration']);
 Route::post('/user-login', [UserController::class, 'userLogin']);
-Route::get('/logout', [UserController::class, 'logout']);
+Route::get('/logout', [UserController::class, 'logout'])->middleware('token.verify');
 Route::post('/send-otp', [UserController::class, 'sendOTP']);
 Route::post('/verify-otp', [UserController::class, 'verifyOTP']);
 Route::post('/reset-password', [UserController::class, 'resetPassword'])->middleware('token.verify');
@@ -68,3 +68,4 @@ Route::post('/invoice-delete', [InvoiceController::class, 'invoiceDelete'])->mid
 
 // Dashboard Summary
 Route::get('/summary', [DashboardController::class, 'summary'])->middleware('token.verify');
+Route::get('/sales-report/{FormDate}/{ToDate}', [ReportController::class, 'SalesReport'])->middleware('token.verify');

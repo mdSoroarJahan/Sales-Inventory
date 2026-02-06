@@ -1,82 +1,55 @@
-<html>
+@extends('layouts.sidenav-layout')
+@section('content')
+    <div class=" container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Sales Report</h4>
+                        <label class="form-label mt-2">Date From</label>
+                        <input type="date" id="fromDate" class="form-control">
+                        <label class="form-label mt-2">Date To</label>
+                        <input type="date" id="toDate" class="form-control">
+                        <button onclick="SalesReport()" class="btn mt-3 bg-gradient-primary">Download</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
 
-<head>
-    <style>
-        .customers {
-            font-family: Arial, Helvetica, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-            font-size: 12px !important;
+<script>
+    /**
+     * Generate and download sales report for the specified date range
+     */
+    async function SalesReport() {
+        let fromDate = document.getElementById('fromDate').value;
+        let toDate = document.getElementById('toDate').value;
+
+        if (fromDate.length === 0) {
+            errorToast("Date From is required!");
+        } else if (toDate.length === 0) {
+            errorToast("Date To is required!");
+        } else if (fromDate > toDate) {
+            errorToast("Date From cannot be greater than Date To!");
+        } else {
+            showLoader();
+            try {
+                // Create a temporary form to submit the request
+                const form = document.createElement('form');
+                form.method = 'GET';
+                form.action = '/sales-report/' + fromDate + '/' + toDate;
+                document.body.appendChild(form);
+                form.submit();
+                document.body.removeChild(form);
+
+                hideLoader();
+                successToast('Report downloaded successfully!');
+            } catch (err) {
+                hideLoader();
+                errorToast("Something went wrong");
+                console.error(err);
+            }
         }
-
-        .customers td,
-        #customers th {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-
-        .customers tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        .customers tr:hover {
-            background-color: #ddd;
-        }
-
-        .customers th {
-            padding-top: 12px;
-            padding-bottom: 12px;
-            padding-left: 6px;
-            text-align: left;
-            background-color: #04AA6D;
-            color: white;
-        }
-    </style>
-</head>
-
-<body>
-
-    <h3>Summary</h3>
-
-    <table class="customers">
-        <thead>
-            <tr>
-                <th>Report</th>
-                <th>Date</th>
-                <th>Total</th>
-                <th>Discount</th>
-                <th>Vat</th>
-                <th>Payable</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Sales Report</td>
-
-            </tr>
-        </tbody>
-    </table>
-
-
-    <h3>Details</h3>
-    <table class="customers">
-        <thead>
-            <tr>
-                <th>Customer</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>Total</th>
-                <th>Discount</th>
-                <th>Vat</th>
-                <th>Payable</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody>
-
-
-        </tbody>
-    </table>
-</body>
-
-</html>
+    }
+</script>
